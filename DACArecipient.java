@@ -73,17 +73,151 @@ public class DACArecipient
   private char sex;
 
 	/***** ACCESSORS *****/
-	//TODO: Copy the accessors you wrote in the previous lab and insert them here.
+	/**
+     * Gets the surname.
+     * @return the surname
+     */
+    public String getSurname() {
+        return surname;
+    }
 
+    /**
+     * Gets the given name.
+     * @return the given name
+     */
+    public String getGivenName() {
+        return givenName;
+    }
+
+    /**
+     * Gets the USCIS number.
+     * @return the USCIS number
+     */
+    public String getUscisNumber() {
+        return uscisNumber;
+    }
+
+    /**
+     * Gets the country of origin.
+     * @return the country of origin
+     */
+    public String getCountryOfOrigin() {
+        return countryOfOrigin;
+    }
+
+    /**
+     * Gets the birthday.
+     * @return the birthday (as a Julian Day number)
+     */
+    public int getBirthday() {
+        return birthday;
+    }
+
+    /**
+     * Gets the valid-from date.
+     * @return the valid-from date (as a Julian Day number)
+     */
+    public int getValidFromDate() {
+        return validFromDate;
+    }
+
+    /**
+     * Gets the expiration date.
+     * @return the expiration date (as a Julian Day number)
+     */
+    public int getExpirationDate() {
+        return expirationDate;
+    }
+
+    /**
+     * Gets the sex.
+     * @return the sex ('M', 'F', etc.)
+     */
+    public char getSex() {
+        return sex;
+    }
+	
 	/***** MUTATORS *****/
-	//TODO: Copy the mutators you wrote in the previous lab and insert them here.
+    /**
+     * Sets the surname.
+     * @param surname the surname to set
+     */
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * Sets the given name.
+     * @param givenName the given name to set
+     */
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
+
+    /**
+     * Sets the USCIS number.
+     * @param uscisNumber the USCIS number to set without "-"
+     */
+    public void setUscisNumber(int uscisNumber) {
+		String copy = String.valueOf(uscisNumber);
+        this.uscisNumber = addHyphens(uscisNumber);
+    }
+
+	/**
+     * Adds hyphens to the USCIS number.
+     * @param uscisNumber the USCIS number to set without "-"
+     */
+	private String addHyphens(int uscisNumber) {
+		String copy = String.valueOf(uscisNumber);
+        return copy.substring(0, 2) + "-" + copy.substring(2, 3) + "-" + copy.substring(3, copy.length()-1);
+	}
+
+    /**
+     * Sets the country of origin.
+     * @param countryOfOrigin the country of origin to set
+     */
+    public void setCountryOfOrigin(String countryOfOrigin) {
+        this.countryOfOrigin = countryOfOrigin;
+    }
+
+    /**
+     * Sets the birthday.
+     * @param birthday the birthday to set (as a Julian Day number)
+     */
+    public void setBirthday(int birthday) {
+        this.birthday = birthday;
+    }
+
+    /**
+     * Sets the valid-from date.
+     * @param validFromDate the valid-from date to set (as a Julian Day number)
+     */
+    public void setValidFromDate(int validFromDate) {
+        this.validFromDate = validFromDate;
+    }
+
+    /**
+     * Sets the expiration date.
+     * @param expirationDate the expiration date to set (as a Julian Day number)
+     */
+    public void setExpirationDate(int expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    /**
+     * Sets the sex.
+     * @param sex the sex to set ('M', 'F', etc.)
+     */
+    public void setSex(char sex) {
+        this.sex = sex;
+    }
     
   /**DESCRIPTION: Assigns parameters to corresponding instance variables of calling DACArecipient. */
-	public void setAll(String surname, String givenName, String uscisNumber, String countryOfOrigin, int birthday, int validFromDate, int expirationDate, char sex)
+	public void setAll(String surname, String givenName, int uscisNumber, String countryOfOrigin, int birthday, int validFromDate, int expirationDate, char sex)
 	{
 		this.surname = surname;
 		this.givenName = givenName;
-		this.uscisNumber = uscisNumber;
+		this.uscisNumber = addHyphens(uscisNumber);
 		this.countryOfOrigin = countryOfOrigin;
 		this.birthday = birthday;
 		this.validFromDate = validFromDate;
@@ -92,11 +226,19 @@ public class DACArecipient
 	}
 
 	/***** OTHER REQUIRED METHODS *****/
-	//TODO: Write the toString method, remember to include documentation 
+	/**
+	 * return a formatted string of all of the instance variables in the class
+	 */
+	public String toString() {
+		return "Surname: "+surname+", Given Name: "+givenName + ", USCIS Number: "+uscisNumber+", Country of Origins: "+countryOfOrigin+", Birthday: "+birthday+", Valid From Date: "+validFromDate+", Expiration Date: "+expirationDate+", Sex: "+sex;
+	}
 
-
-	//TODO: Write the equals method, remember to include documentation
- 
+	/**
+	 * @return checks whether this two objects of the same class have the same instance variables
+	 */
+	public boolean equals(DACArecipient other) {
+		return surname == other.surname && givenName == other.givenName && uscisNumber == other.uscisNumber && countryOfOrigin == other.countryOfOrigin && birthday == other.birthday && validFromDate == other.validFromDate && expirationDate == other.expirationDate && sex == other.sex;
+	}
   
 	//TODO: Revise the following method to use the jdnToDate method to format the three dates.
   /** DESCRIPTION: Prints to the console the Employment Authorization Card using the calling DACArecipient's instance variables.*/
@@ -104,7 +246,7 @@ public class DACArecipient
   {
 		String card;
 		
-    card = String.format("╔══════════════════════════════════════════════════════════════════════╗%n");
+    	card = String.format("╔══════════════════════════════════════════════════════════════════════╗%n");
 		card += String.format("║%35s%35s║%n", TITLE_USA, "");
 		card += String.format("║%60s%10s║%n", TITLE_EAC, "");
 		card += String.format("║%-25s%-45S║%n", "", LABEL_SURNAME);
@@ -118,9 +260,9 @@ public class DACArecipient
 		card += String.format("║%-25s%-45S║%n", ASCII_ART_5, LABEL_BIRTH_COUNTRY);
 		card += String.format("║%-25s%-45s║%n", ASCII_ART_6, countryOfOrigin);
 		card += String.format("║%-25s%-15S%-30S║%n", ASCII_ART_7, LABEL_BIRTH_DATE, LABEL_SEX);
-		card += String.format("║%-25s%-15d%-30s║%n", ASCII_ART_8, birthday, sex);
-		card += String.format("║%-25s%-15S%-30d║%n", ASCII_ART_9, LABEL_VALID_DATE, validFromDate);
-		card += String.format("║%-25s%-15S%-30d║%n", "", LABEL_EXPIRE_DATE, expirationDate);
+		card += String.format("║%-25s%-15s%-30s║%n", ASCII_ART_8, jdnToDate(birthday), sex);
+		card += String.format("║%-25s%-15S%-30s║%n", ASCII_ART_9, LABEL_VALID_DATE, jdnToDate(validFromDate));
+		card += String.format("║%-25s%-15S%-30s║%n", "", LABEL_EXPIRE_DATE, jdnToDate(expirationDate));
 		card += String.format("║%-25s%-45s║%n", ASCII_CREDIT, LABEL_REENTRY_DISCLAIMER);
 		card += String.format("╚══════════════════════════════════════════════════════════════════════╝%n");
 		return card;
